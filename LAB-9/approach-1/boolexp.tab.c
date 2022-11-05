@@ -1083,13 +1083,13 @@ yyreduce:
 
   case 6: /* exp: exp '+' factor  */
 #line 32 "boolexp.y"
-                 { (yyval.a) = newast('+', (yyvsp[-2].a),(yyvsp[0].a));}
+                 { (yyval.a) = newast('+', (yyvsp[-2].a),(yyvsp[0].a)); }
 #line 1088 "boolexp.tab.c"
     break;
 
   case 8: /* factor: factor '.' term  */
 #line 36 "boolexp.y"
-                  {(yyval.a) = newast('.', (yyvsp[-2].a),(yyvsp[0].a));}
+                  {(yyval.a) = newast('.', (yyvsp[-2].a),(yyvsp[0].a)); }
 #line 1094 "boolexp.tab.c"
     break;
 

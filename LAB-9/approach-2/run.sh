@@ -1,0 +1,1 @@
+bison -d parser.y && flex gram.l && cc parser.tab.c lex.yy.c -ll
