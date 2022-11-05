@@ -20,7 +20,8 @@
 %%
 calclist: /* nothing */
 | calclist exp EOL {
-    printf("= %s\n", eval($2));
+    printf("(i) %s\n", (eval($2)).strNON);
+    printf("(ii) %s\n", (eval($2)).strNAN);
     treefree($2);
     printf("> ");
 }

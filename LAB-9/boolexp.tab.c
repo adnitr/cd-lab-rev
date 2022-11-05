@@ -500,8 +500,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    21,    21,    22,    27,    30,    31,    34,    35,    38,
-      39
+       0,    21,    21,    22,    28,    31,    32,    35,    36,    39,
+      40
 };
 #endif
 
@@ -1067,45 +1067,46 @@ yyreduce:
   case 3: /* calclist: calclist exp EOL  */
 #line 22 "boolexp.y"
                    {
-    printf("= %s\n", eval((yyvsp[-1].a)));
+    printf("(i) %s\n", (eval((yyvsp[-1].a))).strNON);
+    printf("(ii) %s\n", (eval((yyvsp[-1].a))).strNAN);
     treefree((yyvsp[-1].a));
     printf("> ");
 }
-#line 1075 "boolexp.tab.c"
+#line 1076 "boolexp.tab.c"
     break;
 
   case 4: /* calclist: calclist EOL  */
-#line 27 "boolexp.y"
+#line 28 "boolexp.y"
                { printf("> "); }
-#line 1081 "boolexp.tab.c"
+#line 1082 "boolexp.tab.c"
     break;
 
   case 6: /* exp: exp '+' factor  */
-#line 31 "boolexp.y"
+#line 32 "boolexp.y"
                  { (yyval.a) = newast('+', (yyvsp[-2].a),(yyvsp[0].a));}
-#line 1087 "boolexp.tab.c"
+#line 1088 "boolexp.tab.c"
     break;
 
   case 8: /* factor: factor '.' term  */
-#line 35 "boolexp.y"
+#line 36 "boolexp.y"
                   {(yyval.a) = newast('.', (yyvsp[-2].a),(yyvsp[0].a));}
-#line 1093 "boolexp.tab.c"
+#line 1094 "boolexp.tab.c"
     break;
 
   case 9: /* term: CHAR  */
-#line 38 "boolexp.y"
+#line 39 "boolexp.y"
            { (yyval.a) = newchar((yyvsp[0].c)); }
-#line 1099 "boolexp.tab.c"
+#line 1100 "boolexp.tab.c"
     break;
 
   case 10: /* term: '(' exp ')'  */
-#line 39 "boolexp.y"
+#line 40 "boolexp.y"
               { (yyval.a) = (yyvsp[-1].a); }
-#line 1105 "boolexp.tab.c"
+#line 1106 "boolexp.tab.c"
     break;
 
 
-#line 1109 "boolexp.tab.c"
+#line 1110 "boolexp.tab.c"
 
       default: break;
     }
@@ -1298,4 +1299,4 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 41 "boolexp.y"
+#line 42 "boolexp.y"

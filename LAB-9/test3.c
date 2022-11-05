@@ -1,38 +1,23 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include "boolexp.h"
+
+struct strset
+{
+    char *s1;
+    char *s2;
+};
+
+void printString(char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        printf("%c", str[i]);
+    }
+    printf("\n");
+}
 
 char NAN[50][50]; // NAND and NOT
 char NON[50][50]; // NAND and NOT
 int rowNAN = 0, rowNON = 0;
-
-struct ast *newast(int nodetype, struct ast *l, struct ast *r)
-{
-    struct ast *a = malloc(sizeof(struct ast));
-    if (!a)
-    {
-        yyerror("out of space");
-        exit(0);
-    }
-    a->nodetype = nodetype;
-    a->l = l;
-    a->r = r;
-    return a;
-}
-
-struct ast *newchar(char c)
-{
-    struct charval *a = malloc(sizeof(struct charval));
-    if (!a)
-    {
-        yyerror("out of space");
-        exit(0);
-    }
-    a->nodetype = 'K';
-    a->c = c;
-    return (struct ast *)a;
-}
 
 char *insertNAN(char *s)
 {
@@ -231,65 +216,33 @@ char *evalK_NON(char c)
     return insertNON(resStr);
 }
 
-struct strset eval(struct ast *a)
+struct strset eval(char *a, char *b)
 {
-    char *strNAN;
-    char *strNON;
-    // calculated value of this subtree
-    switch (a->nodetype)
-    {
-    case 'K':
-        strNAN = evalK_NAN(((struct charval *)a)->c);
-        strNON = evalK_NAN(((struct charval *)a)->c);
-        break;
-    case '+':
-        strNAN = evalOR_NAN((eval(a->l)).strNAN, (eval(a->r)).strNAN);
-        strNON = evalOR_NON((eval(a->l)).strNON, (eval(a->r)).strNON);
-        break;
-    case '.':
-        strNAN = evalAND_NAN((eval(a->l)).strNAN, (eval(a->r)).strNAN);
-        strNON = evalAND_NON((eval(a->l)).strNON, (eval(a->r)).strNON);
-        break;
-    default:
-        printf("internal error: bad node %c\n", a->nodetype);
-    }
-
+    char *s1 = evalOR_NON(a, b);
+    char *s2 = evalOR_NAN(a, b);
     struct strset s;
-    s.strNAN = strNAN;
-    s.strNON = strNON;
-
+    s.s1 = s1;
+    s.s2 = s2;
     return s;
-}
-
-void treefree(struct ast *a)
-{
-    switch (a->nodetype)
-    {
-    /* two subtrees */
-    case '+':
-    case '.':
-        treefree(a->r);
-    /* no subtree */
-    case 'K':
-        free(a);
-        break;
-    default:
-        printf("internal error: free bad node %c\n", a->nodetype);
-    }
-}
-
-void yyerror(char *s, ...)
-{
-    va_list ap;
-    va_start(ap, s);
-
-    fprintf(stderr, "%d: error: ", yylineno);
-    vfprintf(stderr, s, ap);
-    fprintf(stderr, "\n");
 }
 
 int main()
 {
-    printf("> ");
-    return yyparse();
+
+    struct strset s = eval("x", "y");
+    printString(s.s1);
+    printString(s.s2);
+    // char *s1 = evalOR_NAN("a", "b");
+    // char *s2 = evalOR_NON("a", "b");
+    // char *s3 = evalAND_NAN("a", "b");
+    // char *s4 = evalAND_NON("a", "b");
+    // char *s5 = evalK_NAN('z');
+    // char *s6 = evalK_NON('z');
+
+    // printString(s1);
+    // printString(s2);
+    // printString(s3);
+    // printString(s4);
+    // printString(s5);
+    // printString(s6);
 }

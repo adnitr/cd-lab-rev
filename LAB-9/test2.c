@@ -55,7 +55,12 @@ int evaluateOR(char *a, char *b)
     }
 
     resStr1[ptr1++] = '+';
-    resStr2[ptr2++] = '\'';
+    ptr2--;
+    if (resStr2[ptr2] != '\'')
+    {
+        ptr2++;
+        resStr2[ptr2++] = '\'';
+    }
     resStr2[ptr2++] = '.';
 
     i = 0;
@@ -72,7 +77,12 @@ int evaluateOR(char *a, char *b)
     resStr1[ptr1++] = '\'';
     resStr1[ptr1] = '\0';
 
-    resStr2[ptr2++] = '\'';
+    ptr2--;
+    if (resStr2[ptr2] != '\'')
+    {
+        ptr2++;
+        resStr2[ptr2++] = '\'';
+    }
     resStr2[ptr2++] = ')';
     resStr2[ptr2++] = '\'';
     resStr2[ptr2] = '\0';
@@ -103,7 +113,12 @@ int evaluateAND(char *a, char *b)
     }
 
     resStr2[ptr2++] = '.';
-    resStr1[ptr1++] = '\'';
+    ptr1--;
+    if (resStr1[ptr1] != '\'')
+    {
+        ptr1++;
+        resStr1[ptr1++] = '\'';
+    }
     resStr1[ptr1++] = '+';
 
     i = 0;
@@ -120,7 +135,12 @@ int evaluateAND(char *a, char *b)
     resStr2[ptr2++] = '\'';
     resStr2[ptr2] = '\0';
 
-    resStr1[ptr1++] = '\'';
+    ptr1--;
+    if (resStr1[ptr1] != '\'')
+    {
+        ptr1++;
+        resStr1[ptr1++] = '\'';
+    }
     resStr1[ptr1++] = ')';
     resStr1[ptr1++] = '\'';
     resStr1[ptr1] = '\0';
@@ -129,13 +149,26 @@ int evaluateAND(char *a, char *b)
     return insertTwo(ans, resStr2);
 }
 
+int insertChar(char c)
+{
+    char resStr[2];
+    resStr[0] = c;
+    resStr[1] = '\0';
+    insertOne(ans, resStr);
+    return insertTwo(ans, resStr);
+}
+
 int main()
 {
-    int x = evaluateOR("a", "b");
-    int y = evaluateAND("a", "b");
+    // int x = evaluateOR("a'", "b'");
+    // int y = evaluateAND("a'", "b'");
 
+    // printString(ans[x - 50]);
+    // printString(ans[x]);
+    // printString(ans[y - 50]);
+    // printString(ans[y]);
+
+    int x = insertChar('S');
     printString(ans[x - 50]);
     printString(ans[x]);
-    printString(ans[y - 50]);
-    printString(ans[y]);
 }
