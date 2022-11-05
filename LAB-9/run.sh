@@ -1,0 +1,1 @@
+bison -d boolexp.y && flex boolexp.l && cc lex.yy.c boolexp.tab.c boolexpfuncs.c
